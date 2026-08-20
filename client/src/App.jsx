@@ -5,6 +5,8 @@ import recyclingImg from './assets/recycling.jpeg'
 import educationImg from './assets/education.jpeg'
 import communityImg from './assets/community.jpeg'
 import productsImg from './assets/products.jpeg'
+import logoIcon from './assets/cic-bond-icon.png'
+import logoIconLight from './assets/cic-bond-icon-light.png'
 
 /* ---------------- helpers ---------------- */
 
@@ -55,17 +57,19 @@ function Eyebrow({ children, dotClassName = 'bg-leaf', className = '' }) {
   )
 }
 
-function Logo({ textClassName = 'text-foreground' }) {
+function Logo({ textClassName = 'text-foreground', onDark = false }) {
   return (
     <span className="inline-flex items-center gap-2">
-      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true" className="shrink-0">
-        <circle cx="17" cy="17" r="16" fill="var(--color-primary)" />
-        <path d="M17 26c0-6 0-10 5-13-1 7-3 10-5 13z" fill="var(--color-accent)" />
-        <path d="M17 26c0-6 0-10-5-13 1 7 3 10 5 13z" fill="var(--color-primary-foreground)" opacity="0.9" />
-        <circle cx="17" cy="14" r="2.4" fill="var(--color-accent)" />
-      </svg>
+      <img
+        src={onDark ? logoIconLight : logoIcon}
+        alt=""
+        aria-hidden="true"
+        width="34"
+        height="34"
+        className="shrink-0"
+      />
       <span className={`font-display text-lg font-bold tracking-tight ${textClassName}`}>
-        CIC <span className="text-leaf">BOND</span>
+        CIC <span className={onDark ? 'text-accent' : 'text-leaf'}>BOND</span>
       </span>
     </span>
   )
@@ -893,7 +897,7 @@ function App() {
       <footer id="contact" className="border-t border-border bg-primary text-primary-foreground">
         <div className="container-tight grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">
-            <Logo textClassName="text-primary-foreground" />
+            <Logo textClassName="text-primary-foreground" onDark />
             <p className="mt-3 font-display text-sm uppercase tracking-[0.18em] text-accent">
               Recycling for sustainable construction.
             </p>
