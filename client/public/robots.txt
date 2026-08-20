@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cic-bond.org/sitemap.xml
