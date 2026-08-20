@@ -1,4 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
+import heroImg from './assets/hero.jpeg'
+import aboutHeroImg from './assets/about-hero.jpeg'
+import recyclingImg from './assets/recycling.jpeg'
+import educationImg from './assets/education.jpeg'
+import communityImg from './assets/community.jpeg'
+import productsImg from './assets/products.jpeg'
 
 /* ---------------- helpers ---------------- */
 
@@ -40,169 +46,222 @@ function Reveal({ as: Tag = 'div', className = '', children, ...rest }) {
   )
 }
 
-const BTN_BASE =
-  'inline-flex items-center gap-2.5 font-head font-bold text-[14.5px] px-[26px] py-[15px] rounded-[3px] border-2 border-transparent cursor-pointer whitespace-nowrap transition-all duration-200 ease-out hover:-translate-y-0.5'
-
-const BTN_VARIANTS = {
-  primary: 'bg-clay text-bone-2 hover:bg-clay-deep',
-  secondary: 'bg-transparent text-ink border-ink hover:bg-ink hover:text-bone-2',
-  onink:
-    'bg-transparent text-bone-2 border-[rgba(247,244,238,0.5)] hover:bg-bone-2 hover:text-ink hover:border-bone-2',
-  clayInverse: 'bg-ink text-bone-2 hover:bg-[#0f1311]',
-  onclay: 'bg-transparent text-bone-2 border-[rgba(247,244,238,0.6)] hover:bg-bone-2 hover:text-clay',
-}
-
-function Btn({ as: Tag = 'a', variant = 'primary', nav = false, className = '', children, ...rest }) {
-  const sizing = nav ? 'px-5 py-[11px] text-[13.5px]' : ''
+function Eyebrow({ children, dotClassName = 'bg-leaf', className = '' }) {
   return (
-    <Tag className={`${BTN_BASE} ${sizing} ${BTN_VARIANTS[variant]} ${className}`} {...rest}>
+    <span className={`eyebrow ${className}`}>
+      <span className={`h-1.5 w-1.5 rounded-full ${dotClassName}`} />
       {children}
-    </Tag>
+    </span>
   )
 }
 
-function Eyebrow({ children, className = 'text-teal-deep' }) {
+function Logo({ textClassName = 'text-foreground' }) {
   return (
-    <div className={`font-mono text-[12.5px] tracking-[0.14em] uppercase flex items-center gap-2.5 mb-[18px] ${className}`}>
-      <span className="w-[22px] h-0.5 bg-clay inline-block shrink-0" />
-      {children}
-    </div>
-  )
-}
-
-function PaverRule({ onDark = false }) {
-  return (
-    <div className="flex gap-1.5 mb-10">
-      <span className="w-[26px] h-1.5 rounded-[2px] bg-clay" />
-      <span className="w-[26px] h-1.5 rounded-[2px] bg-teal" />
-      <span className="w-[26px] h-1.5 rounded-[2px] bg-flake" />
-      <span className={`w-[26px] h-1.5 rounded-[2px] ${onDark ? 'bg-bone-2' : 'bg-ink'}`} />
-    </div>
-  )
-}
-
-function Logo({ className = '' }) {
-  return (
-    <a href="#top" className={`font-display text-[19px] text-bone-2 flex items-center gap-2.5 ${className}`}>
-      <span className="w-3.5 h-3.5 bg-teal inline-block rounded-[2px] relative overflow-hidden shrink-0">
-        <span
-          className="absolute inset-0 bg-flake"
-          style={{ clipPath: 'polygon(0 0,60% 0,60% 60%,0 60%)' }}
-        />
+    <span className="inline-flex items-center gap-2">
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true" className="shrink-0">
+        <circle cx="17" cy="17" r="16" fill="var(--color-primary)" />
+        <path d="M17 26c0-6 0-10 5-13-1 7-3 10-5 13z" fill="var(--color-accent)" />
+        <path d="M17 26c0-6 0-10-5-13 1 7 3 10 5 13z" fill="var(--color-primary-foreground)" opacity="0.9" />
+        <circle cx="17" cy="14" r="2.4" fill="var(--color-accent)" />
+      </svg>
+      <span className={`font-display text-lg font-bold tracking-tight ${textClassName}`}>
+        CIC <span className="text-leaf">BOND</span>
       </span>
-      CIC Bond
-    </a>
+    </span>
+  )
+}
+
+function Chevron() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" className="opacity-60">
+      <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+    </svg>
   )
 }
 
 /* ---------------- data ---------------- */
 
 const navLinks = [
-  { href: '#who', label: 'About' },
-  { href: '#work', label: 'Our Work' },
-  { href: '#products', label: 'Products' },
-  { href: '#programs', label: 'Programs' },
-  { href: '#involved', label: 'Get Involved' },
-  { href: '#impact', label: 'Impact' },
+  { label: 'Home', href: '#top' },
+  { label: 'About Us', href: '#intro' },
+  { label: 'Our Work', href: '#what-we-do' },
+  {
+    label: 'Initiatives',
+    href: '#initiatives',
+    dropdown: [
+      { label: 'CIC Bond Ambassador Program', href: '#init-ambassador' },
+      { label: 'Green Schools Initiative', href: '#init-green-schools' },
+      { label: 'Youth Recycling Awareness Program', href: '#init-youth-program' },
+    ],
+  },
+  { label: 'Products', href: '#products' },
+  { label: 'Impact', href: '#impact' },
+  {
+    label: 'Get Involved',
+    href: '#get-involved',
+    dropdown: [
+      { label: 'Become an Ambassador', href: '#ambassador-apply' },
+      { label: 'Volunteer', href: '#volunteer' },
+      { label: 'Work With Your School', href: '#school' },
+      { label: 'Partner With CIC Bond', href: '#partner' },
+    ],
+  },
+  { label: 'Resources', href: '#stories' },
+  { label: 'Contact', href: '#contact' },
 ]
 
-const impactAreas = [
+const whatWeDo = [
   {
-    color: 'bg-clay',
-    title: 'Plastic Waste Collection',
-    desc: 'We recover plastic waste before it reaches rivers, drains, farms, and natural ecosystems, giving discarded materials a second life through recycling.',
+    icon: '♻️',
+    title: 'Recycling & Sustainable Construction',
+    desc: 'We are developing solutions for transforming plastic waste into eco-friendly construction materials, including paving stones and tiles. Our ambition is to demonstrate how plastic waste can be recovered and transformed into useful materials while contributing to more sustainable construction.',
+    cta: 'Learn About Our Solution',
+    href: '#products',
   },
   {
-    color: 'bg-teal',
-    title: 'Recycling Innovation',
-    desc: 'Collected plastics are processed into raw materials that can be transformed into durable, practical, and environmentally friendly construction products.',
-  },
-  {
-    color: 'bg-flake',
-    title: 'Sustainable Construction Materials',
-    desc: 'Our flagship products — eco-friendly paving stones and tiles — provide practical alternatives while reducing plastic pollution, with more solutions on the way.',
-  },
-  {
-    color: 'bg-ink',
+    icon: '🌱',
     title: 'Environmental Education',
-    desc: 'Lasting change starts with informed communities. Through awareness campaigns and youth engagement, we encourage responsible waste management.',
+    desc: 'Environmental change starts with awareness. We work with young people and communities to promote understanding of plastic pollution, recycling, responsible waste management, and sustainability — and have expanded into the educational sector.',
+    cta: 'Explore Our Education Work',
+    href: '#education',
   },
   {
-    color: 'bg-clay',
-    title: 'Community Engagement',
-    desc: 'We work with volunteers, schools, local communities, institutions, and partners to build collective action toward cleaner environments.',
+    icon: '👥',
+    title: 'Youth & Community Engagement',
+    desc: 'Young people are at the heart of CIC Bond. Through programs, awareness activities, volunteering, community initiatives, and our Ambassador Program, we create opportunities for young people to participate in environmental action.',
+    cta: 'Get Involved',
+    href: '#get-involved',
   },
 ]
 
-const whyItems = [
-  'Reduces plastic pollution',
-  'Promotes sustainable construction',
-  'Encourages responsible waste management',
-  'Supports environmental education',
-  'Creates opportunities for youth engagement',
-  'Advances the circular economy',
+const approachPills = ['Recycling', 'Sustainable Construction', 'Education', 'Youth Engagement', 'Community Action']
+
+const initiatives = [
+  {
+    id: 'init-ambassador',
+    num: '01',
+    title: 'CIC Bond Ambassador Program',
+    desc: "A youth engagement initiative that creates a network of young people who support and promote CIC Bond's environmental mission. Ambassadors help amplify conversations around recycling, environmental responsibility, sustainability, and community action while representing the values of CIC Bond within their communities.",
+    cta: 'Become a CIC Bond Ambassador',
+    href: '#ambassador-apply',
+  },
+  {
+    id: 'init-green-schools',
+    num: '02',
+    title: 'Green Schools Initiative',
+    desc: 'Schools are powerful spaces for shaping lifelong habits. CIC Bond is working to bring environmental awareness and sustainability into educational spaces — helping students and school communities better understand waste management, recycling, and practical action for cleaner learning environments.',
+    cta: 'Explore Green Schools',
+    href: '#school',
+  },
+  {
+    id: 'init-youth-program',
+    num: '03',
+    title: 'Youth Recycling Awareness Program',
+    desc: 'CIC Bond organized the Youth Recycling Awareness Program to engage young people around recycling, plastic waste, and environmental responsibility — bringing together more than 50 young people for learning, discussion, awareness, and engagement around responsible waste management.',
+    badge: '50+ youth impacted',
+    cta: 'Discover the Program',
+    href: '#featured-program',
+  },
+]
+
+const impactStats = [
+  { value: '50+', desc: 'Youth impacted through the Youth Recycling Awareness Program' },
+  { value: 'Growing', desc: 'Our work in environmental education and the educational sector' },
+  { value: 'Youth-led', desc: 'A growing community of young people engaging with our environmental mission' },
+  { value: 'Community-focused', desc: 'Programs designed to turn environmental awareness into practical action' },
 ]
 
 const products = [
   {
-    title: 'Eco-Friendly Paving Stones',
-    desc: 'Durable paving solutions manufactured using recycled plastic materials.',
-    swatch: 'swatch-paving',
-    tags: ['Walkways', 'Residential compounds', 'Schools', 'Public spaces', 'Commercial'],
+    title: 'Paving Stones',
+    desc: 'Exploring the transformation of recycled plastic into practical paving solutions for walkways, compounds, schools, and other spaces.',
   },
   {
-    title: 'Eco-Friendly Tiles',
-    desc: 'Sustainable flooring solutions that combine durability with environmental responsibility, for both indoor and outdoor applications.',
-    swatch: 'swatch-tile',
-    tags: ['Indoor', 'Outdoor', 'Durable', 'Low-impact'],
+    title: 'Tiles',
+    desc: 'Developing sustainable tile solutions that combine practical construction applications with environmental responsibility.',
+  },
+  {
+    title: 'More to Come',
+    desc: 'As CIC Bond grows, we aim to explore additional construction applications for recycled plastic.',
+    span: true,
   },
 ]
 
-const programTags = [
-  'Environmental awareness',
-  'Community clean-up initiatives',
-  'Youth engagement',
-  'School outreach',
-  'Sustainability education',
-  'Climate action',
+const principles = [
+  { num: '01', title: 'Recover', desc: 'We see discarded plastic as a resource that can be recovered and given another purpose.' },
+  { num: '02', title: 'Transform', desc: 'We explore ways to turn recovered plastic into useful construction materials.' },
+  { num: '03', title: 'Educate', desc: 'We create awareness that encourages people to understand and act on environmental challenges.' },
+  { num: '04', title: 'Empower', desc: 'We create opportunities for young people to participate, lead, and contribute.' },
+  {
+    num: '05',
+    title: 'Collaborate',
+    desc: 'We believe lasting environmental change requires partnerships between communities, organizations, institutions, businesses, and young people.',
+  },
 ]
 
 const involveCards = [
   {
-    kicker: 'Individuals',
+    id: 'ambassador-apply',
+    title: 'Become an Ambassador',
+    desc: "Represent CIC Bond's mission and help promote environmental awareness in your community.",
+    cta: 'Apply to Become an Ambassador',
+  },
+  {
+    id: 'volunteer',
     title: 'Volunteer',
-    desc: 'Support environmental initiatives while gaining valuable experience and contributing to meaningful community impact.',
+    desc: 'Give your time, skills, and ideas to environmental activities and community initiatives.',
     cta: 'Become a Volunteer',
-    href: '#involved',
   },
   {
-    kicker: 'Organizations',
-    title: 'Partner',
-    desc: 'Collaborate with us to develop sustainable environmental solutions and create measurable social impact.',
+    id: 'school',
+    title: 'Work With Your School',
+    desc: 'Bring environmental awareness and sustainability activities to your school community.',
     cta: 'Partner With Us',
-    href: '#partner',
   },
   {
-    kicker: 'Everyone',
-    title: 'Support Our Mission',
-    desc: 'Help accelerate our work toward building cleaner communities and advancing the circular economy.',
-    cta: 'Support Us',
-    href: '#involved',
+    id: 'partner',
+    title: 'Partner With CIC Bond',
+    desc: 'Collaborate with us on environmental, educational, youth, and sustainability initiatives.',
+    cta: 'Become a Partner',
   },
 ]
 
-const metrics = [
-  { value: '— t', label: 'Plastic waste collected' },
-  { value: '— t', label: 'Plastic recycled' },
-  { value: '—', label: 'Eco-friendly products produced' },
-  { value: '—', label: 'Communities reached' },
-  { value: '—', label: 'Environmental campaigns conducted' },
-  { value: '—', label: 'Volunteers engaged' },
-  { value: '—', label: 'Youth trained' },
-  { value: '—', label: 'Partnerships established' },
+const partnerTypes = [
+  'Educational institutions',
+  'NGOs and civil society organizations',
+  'Businesses',
+  'Government institutions',
+  'Development organizations',
+  'Youth organizations',
+  'Communities',
+  'Environmental initiatives',
 ]
 
-const partnerTags = ['Businesses', 'Schools', 'Government Agencies', 'NGOs', 'Development Orgs', 'Individuals']
+const storyTags = ['Recycling', 'Education', 'Youth', 'Sustainability', 'Programs', 'Events', 'Community']
+
+const stories = [
+  { tag: 'Programs', desc: 'Stories from our initiatives, coming soon.' },
+  { tag: 'Youth', desc: 'Voices from young people in our programs.' },
+  { tag: 'Recycling', desc: 'Updates on our sustainable construction work.' },
+]
+
+const footerLinks = [
+  { label: 'Home', href: '#top' },
+  { label: 'About Us', href: '#intro' },
+  { label: 'Our Work', href: '#what-we-do' },
+  { label: 'Products', href: '#products' },
+  { label: 'Impact', href: '#impact' },
+  { label: 'Initiatives', href: '#initiatives' },
+  { label: 'Ambassador Program', href: '#init-ambassador' },
+  { label: 'Green Schools Initiative', href: '#init-green-schools' },
+  { label: 'Youth Recycling Awareness Program', href: '#init-youth-program' },
+  { label: 'Volunteer', href: '#volunteer' },
+  { label: 'Partner With Us', href: '#get-involved' },
+  { label: 'Resources', href: '#stories' },
+  { label: 'Contact', href: '#contact' },
+]
+
+const socialLinks = ['LinkedIn', 'Instagram', 'Facebook', 'WhatsApp']
 
 /* ---------------- app ---------------- */
 
@@ -210,522 +269,681 @@ function App() {
   const [navOpen, setNavOpen] = useState(false)
 
   return (
-    <div id="top">
-      <header className="sticky top-0 z-50 bg-ink/92 backdrop-blur-[8px] border-b border-bone-2/10">
-        <nav className="max-w-[1160px] mx-auto px-8 flex items-center justify-between h-[76px] relative">
-          <Logo />
+    <div id="top" className="flex min-h-screen flex-col">
+      {/* HEADER */}
+      <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-md">
+        <div className="container-tight flex h-16 items-center justify-between">
+          <a href="#top" className="flex items-center" aria-label="CIC Bond home">
+            <Logo />
+          </a>
 
-          <div className="hidden md:flex gap-[34px] text-sm text-bone-2/75">
-            {navLinks.map((l) => (
-              <a key={l.href} href={l.href} className="hover:text-bone-2 transition-colors duration-150">
-                {l.label}
-              </a>
+          <nav className="hidden items-center gap-1 lg:flex">
+            {navLinks.map((link) => (
+              <div className="group relative" key={link.label}>
+                <a
+                  href={link.href}
+                  className="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted/60 hover:text-primary"
+                >
+                  {link.label}
+                  {link.dropdown && <Chevron />}
+                </a>
+                {link.dropdown && (
+                  <div className="invisible absolute left-0 top-full min-w-64 translate-y-1 pt-2 opacity-0 transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                    <div className="card-surface overflow-hidden p-1 shadow-xl shadow-primary/10">
+                      {link.dropdown.map((item) => (
+                        <a
+                          key={item.label}
+                          href={item.href}
+                          className="block rounded-lg px-3 py-2 text-sm text-foreground/80 transition-colors hover:bg-muted hover:text-primary"
+                        >
+                          {item.label}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             ))}
-          </div>
+          </nav>
 
-          <div className="hidden md:flex gap-3">
-            <Btn variant="onink" nav href="#partner">
-              Partner With Us
-            </Btn>
-            <Btn variant="primary" nav href="#involved">
-              Join Our Mission
-            </Btn>
-          </div>
+          <a href="#get-involved" className="btn btn-primary hidden lg:inline-flex">
+            Partner With Us
+          </a>
 
           <button
-            className="md:hidden bg-transparent border-none text-bone-2 text-[22px] cursor-pointer"
-            aria-label="Menu"
+            type="button"
+            className="inline-flex items-center justify-center rounded-lg p-2 text-foreground lg:hidden"
+            aria-label="Toggle menu"
+            aria-expanded={navOpen}
             onClick={() => setNavOpen((v) => !v)}
           >
-            ☰
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
           </button>
+        </div>
 
-          {navOpen && (
-            <div className="md:hidden flex flex-col fixed top-[76px] left-0 right-0 bg-ink p-6 gap-[18px] z-[60] border-b border-bone-2/10">
-              {navLinks.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setNavOpen(false)}
-                  className="text-bone-2/85 text-sm"
-                >
-                  {l.label}
-                </a>
+        {navOpen && (
+          <div className="border-t border-border/70 bg-background lg:hidden">
+            <div className="container-tight flex flex-col gap-1 py-3">
+              {navLinks.map((link) => (
+                <div key={link.label}>
+                  <a
+                    href={link.href}
+                    onClick={() => setNavOpen(false)}
+                    className="block rounded-lg px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-muted/60 hover:text-primary"
+                  >
+                    {link.label}
+                  </a>
+                  {link.dropdown && (
+                    <div className="ml-3 flex flex-col border-l border-border pl-3">
+                      {link.dropdown.map((item) => (
+                        <a
+                          key={item.label}
+                          href={item.href}
+                          onClick={() => setNavOpen(false)}
+                          className="rounded-lg px-3 py-1.5 text-sm text-foreground/60 hover:text-primary"
+                        >
+                          {item.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
-              <div className="flex gap-3 pt-2">
-                <Btn variant="onink" nav href="#partner" onClick={() => setNavOpen(false)}>
-                  Partner With Us
-                </Btn>
-                <Btn variant="primary" nav href="#involved" onClick={() => setNavOpen(false)}>
-                  Join Our Mission
-                </Btn>
-              </div>
+              <a
+                href="#get-involved"
+                onClick={() => setNavOpen(false)}
+                className="btn btn-primary mt-2 justify-center"
+              >
+                Partner With Us
+              </a>
             </div>
-          )}
-        </nav>
+          </div>
+        )}
       </header>
 
-      {/* HERO */}
-      <section className="bg-ink text-bone-2 pt-24 pb-16 relative overflow-hidden">
-        <div className="max-w-[1160px] mx-auto px-8">
-          <div className="grid md:grid-cols-[1.1fr_0.9fr] gap-14 items-center">
-            <div>
-              <Eyebrow className="text-flake">Youth-Led · Cameroon</Eyebrow>
-              <h1 className="font-display leading-[1.05] tracking-[-0.01em] text-[clamp(34px,5.2vw,58px)] mb-[22px]">
-                Turning plastic waste into <span className="text-flake">sustainable infrastructure</span>
+      <main className="flex-1">
+        {/* HERO */}
+        <section className="relative overflow-hidden bg-primary text-primary-foreground">
+          <div className="absolute inset-0">
+            <img
+              src={heroImg}
+              alt="Young volunteers collecting and sorting plastic waste for recycling"
+              className="h-full w-full object-cover opacity-40"
+              fetchPriority="high"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/80 to-primary/30" />
+          </div>
+          <div className="container-tight relative">
+            <div className="max-w-2xl py-24 md:py-36">
+              <Eyebrow className="text-accent" dotClassName="bg-accent">
+                Recycling for sustainable construction
+              </Eyebrow>
+              <h1 className="mt-4 text-4xl font-bold leading-[1.05] text-balance text-primary-foreground md:text-6xl lg:text-7xl">
+                Turning Plastic Waste Into Sustainable Possibilities
               </h1>
-              <p className="text-lg max-w-[640px] text-[rgba(247,244,238,0.78)] mb-[34px]">
-                Every year, thousands of tonnes of plastic waste clog our drains, contaminate our ecosystems,
-                and threaten public health. We collect it, recycle it, and press it into the paving stones and
-                tiles that build cleaner communities.
+              <p className="mt-5 max-w-xl text-lg text-pretty text-primary-foreground/85 md:text-xl">
+                CIC Bond is a youth-led environmental startup tackling plastic pollution through recycling,
+                sustainable construction, environmental education, and youth engagement — giving plastic waste a
+                second life while creating opportunities for young people and communities.
               </p>
-              <div className="flex gap-3.5 flex-wrap">
-                <Btn variant="primary" href="#partner">
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a href="#what-we-do" className="btn btn-accent">
+                  Explore Our Work
+                </a>
+                <a
+                  href="#get-involved"
+                  className="btn btn-outline border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+                >
                   Partner With Us
-                </Btn>
-                <Btn variant="onink" href="#involved">
-                  Join Our Mission
-                </Btn>
-              </div>
-            </div>
-
-            <div className="relative rounded-md overflow-hidden animate-rise-in" aria-hidden="true">
-              <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg" className="block w-full h-auto">
-                <defs>
-                  <linearGradient id="vign" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#1C2321" stopOpacity="0" />
-                    <stop offset="100%" stopColor="#1C2321" stopOpacity="0.55" />
-                  </linearGradient>
-                </defs>
-                <rect width="480" height="480" fill="#1E4A41" />
-                <g>
-                  <g transform="translate(0,0)">
-                    <rect x="-20" y="0" width="140" height="46" fill="#2E6F62" />
-                    <rect x="130" y="0" width="140" height="46" fill="#25594D" />
-                    <rect x="280" y="0" width="140" height="46" fill="#2E6F62" />
-                    <rect x="430" y="0" width="140" height="46" fill="#25594D" />
-                  </g>
-                  <g transform="translate(0,50)">
-                    <rect x="-64" y="0" width="46" height="140" fill="#A8462F" />
-                    <rect x="-18" y="0" width="46" height="140" fill="#8F3A26" />
-                    <rect x="28" y="0" width="46" height="140" fill="#A8462F" />
-                    <rect x="74" y="0" width="46" height="140" fill="#8F3A26" />
-                    <rect x="120" y="0" width="46" height="140" fill="#A8462F" />
-                    <rect x="166" y="0" width="46" height="140" fill="#8F3A26" />
-                    <rect x="212" y="0" width="46" height="140" fill="#A8462F" />
-                    <rect x="258" y="0" width="46" height="140" fill="#8F3A26" />
-                    <rect x="304" y="0" width="46" height="140" fill="#A8462F" />
-                    <rect x="350" y="0" width="46" height="140" fill="#8F3A26" />
-                    <rect x="396" y="0" width="46" height="140" fill="#A8462F" />
-                    <rect x="442" y="0" width="46" height="140" fill="#8F3A26" />
-                  </g>
-                  <g transform="translate(0,196)">
-                    <rect x="-20" y="0" width="140" height="46" fill="#25594D" />
-                    <rect x="130" y="0" width="140" height="46" fill="#2E6F62" />
-                    <rect x="280" y="0" width="140" height="46" fill="#25594D" />
-                    <rect x="430" y="0" width="140" height="46" fill="#2E6F62" />
-                  </g>
-                  <g transform="translate(0,246)">
-                    <rect x="-64" y="0" width="46" height="140" fill="#8F3A26" />
-                    <rect x="-18" y="0" width="46" height="140" fill="#A8462F" />
-                    <rect x="28" y="0" width="46" height="140" fill="#8F3A26" />
-                    <rect x="74" y="0" width="46" height="140" fill="#A8462F" />
-                    <rect x="120" y="0" width="46" height="140" fill="#8F3A26" />
-                    <rect x="166" y="0" width="46" height="140" fill="#A8462F" />
-                    <rect x="212" y="0" width="46" height="140" fill="#8F3A26" />
-                    <rect x="258" y="0" width="46" height="140" fill="#A8462F" />
-                    <rect x="304" y="0" width="46" height="140" fill="#8F3A26" />
-                    <rect x="350" y="0" width="46" height="140" fill="#A8462F" />
-                    <rect x="396" y="0" width="46" height="140" fill="#8F3A26" />
-                    <rect x="442" y="0" width="46" height="140" fill="#A8462F" />
-                  </g>
-                  <g transform="translate(0,392)">
-                    <rect x="-20" y="0" width="140" height="46" fill="#2E6F62" />
-                    <rect x="130" y="0" width="140" height="46" fill="#25594D" />
-                    <rect x="280" y="0" width="140" height="46" fill="#2E6F62" />
-                    <rect x="430" y="0" width="140" height="46" fill="#25594D" />
-                  </g>
-                  <rect x="212" y="196" width="46" height="46" fill="#D9A441" />
-                </g>
-                <rect width="480" height="480" fill="url(#vign)" />
-              </svg>
-              <div className="absolute left-5 bottom-[18px] font-mono text-[11.5px] tracking-[0.06em] text-bone-2/75 uppercase">
-                Recycled HDPE → Paving Stone
+                </a>
               </div>
             </div>
           </div>
+        </section>
 
-          <div className="mt-14 pt-8 border-t border-bone-2/16 grid grid-cols-3 max-[640px]:grid-cols-2 gap-6">
-            {[
-              ['01', 'Collect the waste'],
-              ['02', 'Recycle into raw material'],
-              ['03', 'Build with it'],
-            ].map(([num, label]) => (
-              <div key={num}>
-                <div className="font-mono text-[26px] text-flake">{num}</div>
-                <div className="text-[12.5px] text-bone-2/60 uppercase tracking-[0.08em] mt-1">{label}</div>
+        {/* INTRO */}
+        <section id="intro" className="py-20 md:py-28">
+          <Reveal className="container-tight grid gap-12 lg:grid-cols-2 lg:items-center">
+            <div>
+              <div className="max-w-3xl">
+                <Eyebrow>Introduction</Eyebrow>
+                <h2 className="mt-3 text-3xl font-bold text-balance text-foreground md:text-4xl lg:text-5xl">
+                  We See Waste Differently.
+                </h2>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* WHO WE ARE */}
-      <section className="py-24" id="who">
-        <Reveal className="max-w-[1160px] mx-auto px-8 grid md:grid-cols-[0.9fr_1.1fr] gap-16 items-start">
-          <div>
-            <Eyebrow>Who We Are</Eyebrow>
-            <h2 className="font-display leading-[1.05] tracking-[-0.01em] text-[clamp(28px,4vw,44px)] mb-5">
-              More than a recycling company
-            </h2>
-            <PaverRule />
-            <blockquote className="bg-ink text-bone-2 p-[34px] rounded font-head font-semibold text-lg border-l-4 border-flake">
-              "We're building a circular economy where discarded plastics become valuable construction
-              materials — and communities become active participants in cleaner, healthier cities."
-            </blockquote>
-          </div>
-          <div>
-            <p className="text-lg max-w-[640px] text-ink-soft mb-5">
-              CIC Bond is a youth-led environmental startup dedicated to addressing plastic pollution through
-              innovative recycling solutions and community-driven action.
-            </p>
-            <p className="text-ink-soft mb-4">
-              Our work goes beyond waste management. We're building a circular economy where discarded
-              plastics become valuable construction materials, environmental awareness inspires behavioural
-              change, and communities actively participate in creating cleaner, healthier, and more
-              sustainable cities.
-            </p>
-            <p className="text-ink-soft mb-7">
-              By combining innovation, environmental stewardship, and youth leadership, we aim to show that
-              protecting the planet and driving economic development can go hand in hand.
-            </p>
-            <Btn variant="secondary" href="#work">
-              Learn More About Us
-            </Btn>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* MISSION / VISION */}
-      <section className="bg-bone">
-        <Reveal className="max-w-[1160px] mx-auto grid md:grid-cols-2 gap-px bg-line">
-          <div className="bg-bone-2 p-11">
-            <div className="font-mono text-xs tracking-[0.1em] uppercase text-clay">Our Mission</div>
-            <h3 className="font-display text-[26px] mt-3.5 mb-3.5">
-              Creating sustainable solutions for a cleaner tomorrow
-            </h3>
-            <p className="text-ink-soft">
-              To reduce plastic pollution by transforming plastic waste into high-quality, environmentally
-              responsible construction materials — while promoting environmental education, empowering young
-              people, and contributing to sustainable development across Cameroon and beyond.
-            </p>
-          </div>
-          <div className="bg-bone-2 p-11">
-            <div className="font-mono text-xs tracking-[0.1em] uppercase text-clay">Our Vision</div>
-            <h3 className="font-display text-[26px] mt-3.5 mb-3.5">A future without plastic pollution</h3>
-            <p className="text-ink-soft">
-              Communities where plastic waste is no longer viewed as garbage but as a valuable resource —
-              supporting cleaner environments, stronger infrastructure, and a thriving circular economy that
-              benefits both people and the planet.
-            </p>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* AREAS OF IMPACT */}
-      <section className="py-24" id="work">
-        <Reveal className="max-w-[1160px] mx-auto px-8">
-          <Eyebrow>What We Do</Eyebrow>
-          <h2 className="font-display leading-[1.05] tracking-[-0.01em] text-[clamp(28px,4vw,44px)] mb-2">
-            Our areas of impact
-          </h2>
-          <p className="text-lg max-w-[640px] text-ink-soft mb-11">
-            Five connected efforts, each feeding the next — from the street to the structure.
-          </p>
-          <div className="grid grid-cols-3 max-[860px]:grid-cols-2 max-[600px]:grid-cols-1 gap-px bg-line border border-line">
-            {impactAreas.map((area) => (
-              <div key={area.title} className="bg-bone-2 py-9 px-[30px] hover:bg-bone transition-colors duration-200">
-                <div className={`w-[38px] h-[38px] mb-5 rounded-[3px] ${area.color}`} />
-                <h3 className="font-head font-extrabold text-lg mb-3">{area.title}</h3>
-                <p className="text-[14.5px] text-ink-soft">{area.desc}</p>
+              <div className="mt-6 space-y-4 text-muted-foreground">
+                <p>
+                  Plastic waste is one of the environmental challenges facing communities today. At CIC Bond, we
+                  believe part of the solution lies in changing how we see and manage that waste.
+                </p>
+                <p>
+                  Instead of allowing plastic to remain a burden on our communities and ecosystems, we are working
+                  to recover it and explore ways of transforming it into useful, sustainable construction
+                  materials.
+                </p>
+                <p>
+                  But our work does not stop at recycling. We are also investing in people — especially young
+                  people — through environmental education, awareness programs, community engagement, and
+                  initiatives that encourage practical action.
+                </p>
               </div>
-            ))}
-            <div className="bg-ink flex items-center justify-center py-9 px-[30px]">
-              <Btn variant="onink" href="#partner">
-                See how to get involved →
-              </Btn>
+              <a href="#top" className="btn btn-primary mt-7">
+                About CIC Bond
+              </a>
             </div>
-          </div>
-        </Reveal>
-      </section>
+            <div className="relative">
+              <div className="overflow-hidden rounded-[2rem] border border-border shadow-xl shadow-primary/10">
+                <img
+                  src={recyclingImg}
+                  alt="Recycled plastic flakes being transformed into construction material"
+                  className="aspect-[4/3] w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="absolute -bottom-6 -left-6 hidden rounded-2xl bg-accent px-5 py-4 text-accent-foreground shadow-lg md:block">
+                <p className="font-display text-2xl font-bold">2nd life</p>
+                <p className="text-sm">for plastic waste</p>
+              </div>
+            </div>
+          </Reveal>
+        </section>
 
-      {/* WHY CIC BOND */}
-      <section className="py-24 bg-bone">
-        <Reveal className="max-w-[1160px] mx-auto px-8 grid md:grid-cols-2 gap-14 items-center">
-          <div>
-            <Eyebrow>Why CIC Bond?</Eyebrow>
-            <h2 className="font-display leading-[1.05] tracking-[-0.01em] text-[clamp(28px,4vw,44px)]">
-              Creating impact beyond recycling
-            </h2>
-            <p className="text-lg max-w-[640px] text-ink-soft mt-3">
-              Every piece of plastic collected represents more than waste removed from the environment — it's
-              an opportunity to build stronger communities and a healthier planet. Our approach combines
-              environmental responsibility, innovation, education, and community participation into solutions
-              with long-term impact.
-            </p>
-          </div>
-          <ul className="list-none">
-            {whyItems.map((item, i) => (
-              <li
-                key={item}
-                className={`flex gap-3.5 py-4 border-b border-line font-head font-semibold text-[15.5px] ${
-                  i === 0 ? 'border-t' : ''
-                }`}
-              >
-                <span className="shrink-0 w-2 h-2 mt-[7px] bg-teal rounded-[1px]" />
-                {item}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-      </section>
-
-      {/* PRODUCTS */}
-      <section className="py-24" id="products">
-        <Reveal className="max-w-[1160px] mx-auto px-8">
-          <Eyebrow>Our Products</Eyebrow>
-          <h2 className="font-display leading-[1.05] tracking-[-0.01em] text-[clamp(28px,4vw,44px)] mb-2">
-            Sustainable solutions built from recycled plastic
-          </h2>
-          <p className="text-lg max-w-[640px] text-ink-soft mb-11">
-            Practical alternatives, engineered to hold up — and to keep plastic out of the environment.
-          </p>
-          <div className="grid md:grid-cols-2 gap-7">
-            {products.map((p) => (
-              <div key={p.title} className="bg-bone-2 border border-line rounded overflow-hidden">
-                <div className={`h-[150px] relative overflow-hidden ${p.swatch}`} />
-                <div className="pt-7 px-[30px] pb-[30px]">
-                  <h3 className="font-head font-extrabold text-lg mb-3">{p.title}</h3>
-                  <p className="text-[14.5px] text-ink-soft mb-4">{p.desc}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {p.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="font-mono text-[11.5px] tracking-[0.03em] px-2.5 py-[5px] border border-line rounded-full text-ink-soft"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+        {/* WHAT WE DO */}
+        <section id="what-we-do" className="bg-muted/40 py-20 md:py-28">
+          <Reveal className="container-tight">
+            <div className="max-w-3xl">
+              <Eyebrow>What We Do</Eyebrow>
+              <h2 className="mt-3 text-3xl font-bold text-balance text-foreground md:text-4xl lg:text-5xl">
+                Our Work
+              </h2>
+              <p className="mt-4 text-lg text-pretty text-muted-foreground">
+                CIC Bond brings together environmental innovation, education, and youth participation to create
+                practical responses to plastic pollution.
+              </p>
+            </div>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {whatWeDo.map((item) => (
+                <article
+                  key={item.title}
+                  className="card-surface flex flex-col p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
+                >
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-secondary text-2xl">
+                    {item.icon}
                   </div>
+                  <h3 className="mt-5 text-xl font-bold text-foreground">{item.title}</h3>
+                  <p className="mt-3 flex-1 text-sm text-muted-foreground">{item.desc}</p>
+                  <a
+                    href={item.href}
+                    className="mt-6 inline-flex items-center gap-1 font-semibold text-primary transition-all hover:gap-2"
+                  >
+                    {item.cta}
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </article>
+              ))}
+            </div>
+          </Reveal>
+        </section>
+
+        {/* OUR APPROACH */}
+        <section className="relative overflow-hidden bg-primary py-20 text-primary-foreground md:py-28">
+          <div className="absolute inset-0">
+            <img
+              src={aboutHeroImg}
+              alt=""
+              aria-hidden="true"
+              className="h-full w-full object-cover opacity-[0.16]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-primary via-primary/95 to-primary" />
+          </div>
+          <Reveal className="container-tight relative grid gap-12 lg:grid-cols-2 lg:items-center">
+            <div>
+              <Eyebrow className="text-accent" dotClassName="bg-accent">
+                Our Approach
+              </Eyebrow>
+              <h2 className="mt-3 text-3xl font-bold text-balance text-primary-foreground md:text-4xl lg:text-5xl">
+                We Don't Just Recycle. We Build Awareness Around It.
+              </h2>
+              <p className="mt-4 text-lg text-pretty text-primary-foreground/80">
+                Plastic pollution cannot be addressed through recycling alone. It requires informed communities,
+                responsible choices, innovation, and people who are willing to take action. That is why CIC Bond
+                connects:
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {approachPills.map((pill, i) => (
+                <span
+                  key={pill}
+                  className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-primary-foreground/5 px-4 py-2 font-display text-sm font-semibold text-accent"
+                >
+                  <span className="font-bold text-primary-foreground/40">{String(i + 1).padStart(2, '0')}</span>
+                  {pill}
+                </span>
+              ))}
+            </div>
+          </Reveal>
+          <p className="container-tight relative mt-10 max-w-2xl border-l-2 border-accent pl-4 text-lg italic text-primary-foreground/80">
+            We believe these elements can work together to create lasting environmental impact.
+          </p>
+        </section>
+
+        {/* INITIATIVES */}
+        <section id="initiatives" className="py-20 md:py-28">
+          <Reveal className="container-tight">
+            <div className="max-w-3xl">
+              <Eyebrow>Our Initiatives</Eyebrow>
+              <h2 className="mt-3 text-3xl font-bold text-balance text-foreground md:text-4xl lg:text-5xl">
+                Turning Ideas Into Action
+              </h2>
+              <p className="mt-4 text-lg text-pretty text-muted-foreground">
+                Our initiatives allow us to take our mission beyond our core recycling ambitions and directly
+                engage with young people, schools, and communities.
+              </p>
+            </div>
+            <div className="mt-12 space-y-6">
+              {initiatives.map((item) => (
+                <article
+                  key={item.id}
+                  id={item.id}
+                  className="card-surface grid gap-6 p-7 md:grid-cols-[auto_1fr_auto] md:items-center md:p-9"
+                >
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/20 font-display text-xl font-bold text-primary">
+                    {item.num}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-foreground md:text-2xl">{item.title}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground md:text-base">{item.desc}</p>
+                  </div>
+                  <div className="flex flex-col items-start gap-3 md:items-end">
+                    {item.badge && (
+                      <span className="rounded-full bg-accent px-3 py-1 text-sm font-semibold text-accent-foreground">
+                        {item.badge}
+                      </span>
+                    )}
+                    <a href={item.href} className="btn btn-primary">
+                      {item.cta}
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </Reveal>
+        </section>
+
+        {/* EDUCATION */}
+        <section id="education" className="bg-muted/40 py-20 md:py-28">
+          <Reveal className="container-tight grid gap-12 lg:grid-cols-2 lg:items-center">
+            <div className="order-2 lg:order-1">
+              <Eyebrow>Education</Eyebrow>
+              <h2 className="mt-3 text-3xl font-bold text-balance text-foreground md:text-4xl">
+                Building Environmental Awareness Through Education
+              </h2>
+              <div className="mt-5 space-y-4 text-muted-foreground">
+                <p>
+                  We believe that environmental sustainability should not only be discussed — it should be taught,
+                  experienced, and practiced.
+                </p>
+                <p>
+                  CIC Bond is expanding its work within the educational sector by creating opportunities for
+                  students and young people to learn about environmental challenges and participate in practical
+                  solutions. From environmental awareness activities to school-based initiatives, we want to help
+                  create a generation that understands the value of responsible waste management and sees
+                  sustainability as part of everyday life.
+                </p>
+              </div>
+              <a href="#school" className="btn btn-primary mt-7">
+                Bring CIC Bond to Your School
+              </a>
+            </div>
+            <div className="order-1 lg:order-2">
+              <div className="overflow-hidden rounded-[2rem] border border-border shadow-xl shadow-primary/10">
+                <img
+                  src={educationImg}
+                  alt="Young people in an environmental education session"
+                  className="aspect-[4/3] w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </Reveal>
+        </section>
+
+        {/* IMPACT */}
+        <section id="impact" className="py-20 md:py-28">
+          <Reveal className="container-tight">
+            <div className="max-w-3xl">
+              <Eyebrow>Impact</Eyebrow>
+              <h2 className="mt-3 text-3xl font-bold text-balance text-foreground md:text-4xl lg:text-5xl">
+                Our Impact Starts With People
+              </h2>
+              <p className="mt-4 text-lg text-pretty text-muted-foreground">
+                At CIC Bond, impact is not only about the amount of waste we eventually recover or the products we
+                develop. It is also about the people we reach, the knowledge we share, and the action we inspire.
+              </p>
+            </div>
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {impactStats.map((stat) => (
+                <div
+                  key={stat.value}
+                  className="card-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10"
+                >
+                  <p className="font-display text-3xl font-bold text-primary md:text-4xl">{stat.value}</p>
+                  <p className="mt-3 text-sm text-muted-foreground">{stat.desc}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-8 text-xs text-muted-foreground/70">
+              Note: additional numerical statistics will be shared once verified and provided by CIC Bond.
+            </p>
+          </Reveal>
+        </section>
+
+        {/* FEATURED PROGRAM */}
+        <section id="featured-program" className="relative overflow-hidden bg-primary text-primary-foreground">
+          <Reveal className="container-tight grid gap-12 py-20 md:py-28 lg:grid-cols-2 lg:items-center">
+            <div className="relative">
+              <div className="overflow-hidden rounded-[2rem] border border-accent/30 shadow-2xl">
+                <img
+                  src={communityImg}
+                  alt="Young people gathered for the Youth Recycling Awareness Program"
+                  className="aspect-[4/3] w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="absolute -top-5 -right-5 rounded-2xl bg-accent px-5 py-4 text-accent-foreground shadow-lg">
+                <p className="font-display text-3xl font-bold">50+</p>
+                <p className="text-xs">youth impacted</p>
+              </div>
+            </div>
+            <div>
+              <Eyebrow className="text-accent" dotClassName="bg-accent">
+                Featured Program
+              </Eyebrow>
+              <h2 className="mt-3 text-3xl font-bold text-balance text-primary-foreground md:text-4xl">
+                Youth Recycling Awareness Program
+              </h2>
+              <p className="mt-2 text-lg font-medium text-accent">
+                More than 50 young people. One important conversation about our environment.
+              </p>
+              <p className="mt-5 text-primary-foreground/80">
+                The Youth Recycling Awareness Program brought young people together to learn about recycling,
+                engage, and think more deeply about plastic waste and the role each of us can play in creating
+                more sustainable communities. For CIC Bond, it was an opportunity to move beyond simply talking
+                about recycling and create a space where young people could engage directly with the issue.
+              </p>
+              <a href="#get-involved" className="btn btn-accent mt-7">
+                Read More
+              </a>
+            </div>
+          </Reveal>
+        </section>
+
+        {/* PRODUCTS */}
+        <section id="products" className="py-20 md:py-28">
+          <Reveal className="container-tight">
+            <div className="max-w-3xl">
+              <Eyebrow>Products</Eyebrow>
+              <h2 className="mt-3 text-3xl font-bold text-balance text-foreground md:text-4xl lg:text-5xl">
+                Sustainable Construction Starts With Better Choices
+              </h2>
+              <p className="mt-4 text-lg text-pretty text-muted-foreground">
+                CIC Bond is developing eco-friendly construction materials using recycled plastic. Our work
+                currently focuses on solutions such as:
+              </p>
+            </div>
+            <div className="mt-12 grid gap-8 lg:grid-cols-2 lg:items-center">
+              <div className="order-2 grid gap-5 sm:grid-cols-2">
+                {products.map((p) => (
+                  <article
+                    key={p.title}
+                    className={`card-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10 ${
+                      p.span ? 'sm:col-span-2' : ''
+                    }`}
+                  >
+                    <h3 className="font-display text-lg font-bold text-primary">{p.title}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground">{p.desc}</p>
+                  </article>
+                ))}
+                <a href="#get-involved" className="btn btn-primary sm:col-span-2">
+                  Explore Our Products
+                </a>
+              </div>
+              <div className="order-1">
+                <div className="overflow-hidden rounded-[2rem] border border-border shadow-xl shadow-primary/10">
+                  <img
+                    src={productsImg}
+                    alt="Eco-friendly paving stones and tiles made from recycled plastic"
+                    className="aspect-[4/3] w-full object-cover"
+                    loading="lazy"
+                  />
                 </div>
               </div>
-            ))}
-          </div>
-          <p className="mt-7 text-[14.5px] text-ink-soft">
-            As our technology evolves, we'll expand into more environmentally friendly construction products
-            to meet growing sustainability needs.
-          </p>
-          <Btn variant="secondary" href="#partner" className="mt-5">
-            Explore Our Products
-          </Btn>
-        </Reveal>
-      </section>
-
-      {/* PROGRAMS */}
-      <section className="bg-ink text-bone-2 py-24" id="programs">
-        <Reveal className="max-w-[1160px] mx-auto px-8">
-          <Eyebrow className="text-flake">Our Programs</Eyebrow>
-          <h2 className="font-display leading-[1.05] tracking-[-0.01em] text-[clamp(28px,4vw,44px)] mb-2 text-bone-2">
-            Driving environmental action beyond recycling
-          </h2>
-          <p className="text-lg max-w-[640px] text-bone-2/72 mb-9">
-            Our initiatives extend beyond recycling — engaging communities, empowering young people, and
-            promoting environmental responsibility.
-          </p>
-          <div className="flex flex-wrap gap-3.5">
-            {programTags.map((tag) => (
-              <div
-                key={tag}
-                className="font-head font-semibold text-[15px] px-[22px] py-4 border border-bone-2/25 rounded-full text-bone-2 flex items-center gap-2.5"
-              >
-                <span className="w-[7px] h-[7px] rounded-full bg-flake" />
-                {tag}
-              </div>
-            ))}
-          </div>
-          <Btn variant="onink" href="#involved" className="mt-9">
-            Explore Our Programs
-          </Btn>
-        </Reveal>
-      </section>
-
-      {/* GET INVOLVED */}
-      <section className="py-24" id="involved">
-        <Reveal className="max-w-[1160px] mx-auto px-8">
-          <Eyebrow>Get Involved</Eyebrow>
-          <h2 className="font-display leading-[1.05] tracking-[-0.01em] text-[clamp(28px,4vw,44px)] mb-2">
-            Be part of the solution
-          </h2>
-          <p className="text-lg max-w-[640px] text-ink-soft mb-11">
-            Creating lasting environmental change takes collective action. Whether you're an individual,
-            business, school, organization, or institution — there's a place for you here.
-          </p>
-          <div className="grid md:grid-cols-3 gap-6">
-            {involveCards.map((c) => (
-              <div key={c.title} className="py-[38px] px-[30px] bg-bone-2 border border-line rounded flex flex-col gap-4">
-                <div className="font-mono text-clay text-[13px]">{c.kicker}</div>
-                <h3 className="font-head font-extrabold text-lg">{c.title}</h3>
-                <p className="text-[14.5px] text-ink-soft grow">{c.desc}</p>
-                <Btn variant="secondary" href={c.href} className="self-start">
-                  {c.cta}
-                </Btn> 
-              </div>
-            ))}
-          </div>
-        </Reveal> 
-      </section>
-
-      {/* IMPACT METRICS */}
-      <section className="py-24 bg-bone" id="impact">
-        <Reveal className="max-w-[1160px] mx-auto px-8">
-          <Eyebrow>Impact</Eyebrow>
-          <h2 className="font-display leading-[1.05] tracking-[-0.01em] text-[clamp(28px,4vw,44px)] mb-2">
-            Every action creates change
-          </h2>
-          <p className="text-lg max-w-[640px] text-ink-soft mb-9">
-            CIC Bond is committed to delivering measurable environmental and social impact, with a focus on
-            transparency, accountability, and continuous improvement.
-          </p>
-          <div className="grid grid-cols-4 max-[760px]:grid-cols-2 gap-px bg-line border border-line">
-            {metrics.map((m) => (
-              <div key={m.label} className="bg-bone-2 py-[30px] px-6">
-                <div className="font-mono text-[15px] text-teal-deep mb-1.5">{m.value}</div>
-                <div className="text-[13.5px] font-head font-semibold">{m.label}</div>
-              </div>
-            ))}
-          </div>
-          <p className="mt-[22px] text-[13.5px] text-ink-soft">
-            Impact indicators will be updated regularly as our work expands.
-          </p>
-        </Reveal>
-      </section>
-
-      {/* NEWS */}
-      <section className="py-[72px]">
-        <Reveal className="max-w-[1160px] mx-auto px-8 flex items-center justify-between gap-10 flex-wrap">
-          <div>
-            <Eyebrow>News &amp; Insights</Eyebrow>
-            <h2 className="font-display leading-[1.05] tracking-[-0.01em] text-[clamp(28px,4vw,44px)] mb-2.5">
-              Stay updated
-            </h2>
-            <p className="text-lg max-w-[640px] text-ink-soft">
-              Follow our journey as we develop new recycling solutions, launch community initiatives, and
-              celebrate milestones with our growing network of partners and supporters.
+            </div>
+            <p className="mt-6 text-xs text-muted-foreground/70">
+              Product specifications, dimensions, strength ratings, prices, and availability will be added once
+              officially confirmed by CIC Bond.
             </p>
-          </div>
-          <Btn as="button" type="button" variant="primary">
-            Read Our Stories
-          </Btn>
-        </Reveal>
-      </section>
+          </Reveal>
+        </section>
 
-      {/* PARTNER */}
-      <section className="bg-ink text-bone-2 py-24" id="partner">
-        <Reveal className="max-w-[1160px] mx-auto px-8 grid md:grid-cols-2 gap-14 items-center">
-          <div>
-            <Eyebrow className="text-flake">Partner With Us</Eyebrow>
-            <h2 className="font-display leading-[1.05] tracking-[-0.01em] text-[clamp(28px,4vw,44px)] text-bone-2 mb-5">
-              Together, we can build sustainable communities
-            </h2>
-            <p className="text-bone-2/72">
-              Real environmental transformation requires collaboration. We welcome partnerships with
-              businesses, educational institutions, government agencies, development organizations, NGOs, and
-              individuals who share our commitment to sustainability and innovation. Together, we can create
-              scalable solutions that reduce plastic pollution while strengthening communities.
-            </p>
-            <Btn variant="primary" href="#contact" className="mt-[26px]">
-              Become a Partner
-            </Btn>
-          </div>
-          <div className="flex flex-wrap gap-2.5 mt-0 md:mt-0">
-            {partnerTags.map((tag) => (
-              <span
-                key={tag}
-                className="font-mono text-xs px-3.5 py-2 border border-bone-2/25 rounded-[3px] text-bone-2/85"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </Reveal>
-      </section>
-
-      {/* FINAL CTA */}
-      <section className="bg-clay text-bone-2 py-[88px] text-center">
-        <Reveal className="max-w-[1160px] mx-auto px-8">
-          <h2 className="font-display leading-[1.05] tracking-[-0.01em] text-[clamp(28px,4vw,44px)] text-bone-2 max-w-[720px] mx-auto mb-[18px]">
-            Join the movement.
-          </h2>
-          <p className="text-bone-2/88 max-w-[600px] mx-auto mb-9">
-            Plastic pollution is one of the defining environmental challenges of our time — but together, we
-            can turn this challenge into opportunity. Whether you volunteer, partner with us, support our
-            initiatives, or simply learn more, your involvement builds cleaner communities and a more
-            sustainable future.
-          </p>
-          <div className="flex gap-3.5 flex-wrap justify-center">
-            <Btn variant="clayInverse" href="#involved">
-              Join Our Mission
-            </Btn>
-            <Btn variant="onclay" href="#contact">
-              Contact Us
-            </Btn>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="bg-ink text-bone-2/70 pt-16 pb-8 text-sm" id="contact">
-        <div className="max-w-[1160px] mx-auto px-8">
-          <div className="grid grid-cols-[1.4fr_1fr_1fr_1fr] max-[760px]:grid-cols-2 gap-10 pb-11 border-b border-bone-2/12">
-            <div>
-              <Logo className="mb-4" />
-              <p className="max-w-[260px] text-sm">
-                Turning plastic waste into sustainable infrastructure through innovation, environmental
-                responsibility, and community action.
+        {/* WHY CIC BOND */}
+        <section className="bg-muted/40 py-20 md:py-28">
+          <Reveal className="container-tight">
+            <div className="max-w-3xl">
+              <Eyebrow>Why CIC Bond?</Eyebrow>
+              <h2 className="mt-3 text-3xl font-bold text-balance text-foreground md:text-4xl lg:text-5xl">
+                Because Environmental Action Should Create Value.
+              </h2>
+              <p className="mt-4 text-lg text-pretty text-muted-foreground">
+                Our approach is built around five principles.
               </p>
             </div>
-            <div>
-              <h4 className="font-head text-[13px] tracking-[0.06em] uppercase text-bone-2 mb-4">Quick Links</h4>
-              <ul className="flex flex-col gap-2.5">
-                <li><a href="#who" className="hover:text-bone-2 transition-colors">About Us</a></li>
-                <li><a href="#work" className="hover:text-bone-2 transition-colors">Our Work</a></li>
-                <li><a href="#products" className="hover:text-bone-2 transition-colors">Products</a></li>
-                <li><a href="#programs" className="hover:text-bone-2 transition-colors">Programs</a></li>
-                <li><span>News</span></li>
-              </ul>
+            <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+              {principles.map((p) => (
+                <div
+                  key={p.num}
+                  className="card-surface relative p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/10"
+                >
+                  <span className="font-display text-sm font-bold text-accent">{p.num}</span>
+                  <h3 className="mt-2 text-lg font-bold text-foreground">{p.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{p.desc}</p>
+                </div>
+              ))}
             </div>
-            <div>
-              <h4 className="font-head text-[13px] tracking-[0.06em] uppercase text-bone-2 mb-4">Get Involved</h4>
-              <ul className="flex flex-col gap-2.5">
-                <li><a href="#involved" className="hover:text-bone-2 transition-colors">Become a Volunteer</a></li>
-                <li><a href="#partner" className="hover:text-bone-2 transition-colors">Partner With Us</a></li>
-                <li><a href="#involved" className="hover:text-bone-2 transition-colors">Support Our Mission</a></li>
-                <li><a href="#contact" className="hover:text-bone-2 transition-colors">Contact Us</a></li>
-              </ul>
+          </Reveal>
+        </section>
+
+        {/* GET INVOLVED */}
+        <section id="get-involved" className="py-20 md:py-28">
+          <Reveal className="container-tight">
+            <div className="max-w-3xl">
+              <Eyebrow>Get Involved</Eyebrow>
+              <h2 className="mt-3 text-3xl font-bold text-balance text-foreground md:text-4xl lg:text-5xl">
+                You Can Be Part of the Solution
+              </h2>
+              <p className="mt-4 text-lg text-pretty text-muted-foreground">
+                Environmental change is a collective effort. Whether you are a young person, school, organization,
+                business, institution, or individual, there is a way to engage with CIC Bond.
+              </p>
             </div>
-            <div>
-              <h4 className="font-head text-[13px] tracking-[0.06em] uppercase text-bone-2 mb-4">Connect With Us</h4>
-              <ul className="flex flex-col gap-2.5">
-                <li><span>Email</span></li>
-                <li><span>Phone</span></li>
-                <li><span>Location</span></li>
-                <li><span>LinkedIn · Instagram · Facebook · WhatsApp</span></li>
-              </ul>
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {involveCards.map((c) => (
+                <article
+                  key={c.id}
+                  id={c.id}
+                  className="card-surface flex flex-col p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10"
+                >
+                  <h3 className="text-lg font-bold text-foreground">{c.title}</h3>
+                  <p className="mt-3 flex-1 text-sm text-muted-foreground">{c.desc}</p>
+                  <a href="#contact" className="btn btn-outline mt-6 w-full">
+                    {c.cta}
+                  </a>
+                </article>
+              ))}
             </div>
+          </Reveal>
+        </section>
+
+        {/* PARTNERS */}
+        <section className="bg-muted/40 py-20 md:py-28">
+          <Reveal className="container-tight">
+            <div className="max-w-3xl">
+              <Eyebrow>Partners</Eyebrow>
+              <h2 className="mt-3 text-3xl font-bold text-balance text-foreground md:text-4xl lg:text-5xl">
+                Building Impact Through Collaboration
+              </h2>
+              <p className="mt-4 text-lg text-pretty text-muted-foreground">
+                We believe meaningful environmental change happens when people and organizations work together.
+                CIC Bond is open to collaborations with:
+              </p>
+            </div>
+            <div className="mt-10 flex flex-wrap gap-3">
+              {partnerTypes.map((type) => (
+                <span key={type} className="rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground/80">
+                  {type}
+                </span>
+              ))}
+            </div>
+            <div className="mt-8 rounded-2xl border border-dashed border-border bg-card/50 p-6 text-center text-sm text-muted-foreground">
+              Officially confirmed partners and logos will be displayed here.
+            </div>
+            <a href="#get-involved" className="btn btn-primary mt-6">
+              Partner With Us
+            </a>
+          </Reveal>
+        </section>
+
+        {/* STORIES */}
+        <section id="stories" className="py-20 md:py-28">
+          <Reveal className="container-tight">
+            <div className="max-w-3xl">
+              <Eyebrow>News &amp; Stories</Eyebrow>
+              <h2 className="mt-3 text-3xl font-bold text-balance text-foreground md:text-4xl lg:text-5xl">
+                What's Happening at CIC Bond
+              </h2>
+              <p className="mt-4 text-lg text-pretty text-muted-foreground">
+                Follow our journey as we continue to develop our work in recycling, sustainable construction,
+                environmental education, youth engagement, and community action.
+              </p>
+            </div>
+            <div className="mt-10 flex flex-wrap gap-2">
+              {storyTags.map((tag) => (
+                <span key={tag} className="rounded-full bg-secondary px-4 py-1.5 text-sm font-medium text-secondary-foreground">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div className="mt-8 grid gap-6 md:grid-cols-3">
+              {stories.map((story) => (
+                <article key={story.tag} className="card-surface overflow-hidden">
+                  <div className="leaf-veil flex h-40 items-center justify-center bg-secondary">
+                    <span className="font-display text-sm font-semibold uppercase tracking-widest text-secondary-foreground">
+                      {story.tag}
+                    </span>
+                  </div>
+                  <div className="p-6">
+                    <p className="text-sm text-foreground/80">{story.desc}</p>
+                    <a href="#stories" className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                      Read more <span aria-hidden="true">→</span>
+                    </a>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <a href="#stories" className="btn btn-outline mt-8">
+              View All Stories
+            </a>
+          </Reveal>
+        </section>
+
+        {/* FINAL CTA */}
+        <section className="relative overflow-hidden bg-primary text-primary-foreground">
+          <div className="leaf-veil absolute inset-0 opacity-60" />
+          <Reveal className="container-tight relative py-20 text-center md:py-28">
+            <Eyebrow className="text-accent" dotClassName="bg-accent">
+              Join Us
+            </Eyebrow>
+            <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-bold text-balance text-primary-foreground md:text-5xl">
+              Let's Build a More Sustainable Future.
+            </h2>
+            <p className="mx-auto mt-5 max-w-2xl text-lg text-pretty text-primary-foreground/85">
+              Plastic pollution is a challenge, but it is also an opportunity to rethink how we use, recover, and
+              value our resources. At CIC Bond, we are working to turn plastic waste into sustainable construction
+              possibilities, bring environmental education into more communities, and empower young people to take
+              action. The change starts with what we choose to do with the waste around us.
+            </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <a href="#get-involved" className="btn btn-accent">
+                Join Our Mission
+              </a>
+              <a
+                href="#get-involved"
+                className="btn btn-outline border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+              >
+                Partner With Us
+              </a>
+            </div>
+          </Reveal>
+        </section>
+      </main>
+
+      {/* FOOTER */}
+      <footer id="contact" className="border-t border-border bg-primary text-primary-foreground">
+        <div className="container-tight grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
+          <div className="lg:col-span-1">
+            <Logo textClassName="text-primary-foreground" />
+            <p className="mt-3 font-display text-sm uppercase tracking-[0.18em] text-accent">
+              Recycling for sustainable construction.
+            </p>
+            <p className="mt-4 max-w-xs text-sm text-primary-foreground/80">
+              CIC Bond works at the intersection of recycling, sustainable construction, environmental education,
+              youth engagement, and community action to contribute to cleaner, more sustainable communities.
+            </p>
           </div>
-          <div className="pt-[26px] flex justify-between flex-wrap gap-3 text-[12.5px]">
-            <div>© 2026 CIC Bond. All rights reserved.</div>
-            <div>Building a cleaner future through sustainable innovation.</div>
+
+          <div className="lg:col-span-2">
+            <h3 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+              Quick Links
+            </h3>
+            <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+              {footerLinks.map((link) => (
+                <li key={link.label}>
+                  <a href={link.href} className="text-primary-foreground/80 transition-colors hover:text-accent">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+              Connect With Us
+            </h3>
+            <ul className="mt-4 space-y-2 text-sm">
+              {socialLinks.map((social) => (
+                <li key={social}>
+                  <a
+                    href="#top"
+                    className="inline-flex items-center gap-2 text-primary-foreground/80 transition-colors hover:text-accent"
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                    {social}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <a href="#get-involved" className="btn btn-accent mt-5">
+              Partner With Us
+            </a>
+          </div>
+        </div>
+        <div className="border-t border-primary-foreground/15">
+          <div className="container-tight flex flex-col items-center justify-between gap-2 py-5 text-xs text-primary-foreground/70 sm:flex-row">
+            <p>© 2026 CIC Bond. All Rights Reserved.</p>
+            <p>Recycling for Sustainable Construction.</p>
           </div>
         </div>
       </footer>
