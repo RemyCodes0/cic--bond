@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #1c2321;
+  --color-clay: #a8462f;
+  --color-clay-deep: #8f3a26;
+  --color-teal: #2e6f62;
+  --color-teal-deep: #1e4a41;
+  --color-bone: #ede7dd;
+  --color-bone-2: #f7f4ee;
+  --color-flake: #d9a441;
+  --color-line: rgba(28, 35, 33, 0.14);
+  --color-ink-soft: rgba(28, 35, 33, 0.68);
+
+  --font-display: 'Archivo Black', 'Archivo', sans-serif;
+  --font-head: 'Archivo', sans-serif;
+  --font-body: 'Archivo', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-bone-2);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background: var(--color-flake);
+  color: var(--color-ink);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--color-flake);
+  outline-offset: 3px;
+}
+
+@keyframes rise-in {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-rise-in {
+  opacity: 0;
+  transform: translateY(14px) scale(0.98);
+  animation: rise-in 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 200ms forwards;
+}
+
+.swatch-paving {
+  background:
+    repeating-linear-gradient(90deg, var(--color-clay) 0 46px, transparent 46px 50px),
+    repeating-linear-gradient(0deg, var(--color-teal) 0 46px, transparent 46px 50px),
+    var(--color-ink);
+  background-size: 50px 50px, 50px 50px, cover;
+  background-blend-mode: overlay, overlay, normal;
+  opacity: 0.92;
+}
+
+.swatch-tile {
+  background:
+    linear-gradient(135deg, var(--color-teal) 25%, transparent 25%) 0 0 / 40px 40px,
+    linear-gradient(225deg, var(--color-teal) 25%, transparent 25%) 0 0 / 40px 40px,
+    linear-gradient(45deg, var(--color-teal-deep) 25%, transparent 25%) 0 0 / 40px 40px,
+    linear-gradient(315deg, var(--color-teal-deep) 25%, transparent 25%) 0 0 / 40px 40px,
+    var(--color-ink);
+  background-position: 0 0, 20px 0, 20px -20px, 0px 20px;
+}
