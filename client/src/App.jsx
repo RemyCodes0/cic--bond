@@ -3,10 +3,16 @@ import heroImg from './assets/hero.jpeg'
 import aboutHeroImg from './assets/about-hero.jpeg'
 import recyclingImg from './assets/recycling.jpeg'
 import educationImg from './assets/education.jpeg'
-import communityImg from './assets/community.jpeg'
 import productsImg from './assets/products.jpeg'
 import logoIcon from './assets/cic-bond-icon.png'
 import logoIconLight from './assets/cic-bond-icon-light.png'
+import youthProgram1 from './assets/youth-program-1.jpeg'
+import youthProgram2 from './assets/youth-program-2.jpeg'
+import youthProgram3 from './assets/youth-program-3.jpeg'
+import youthProgram4 from './assets/youth-program-4.jpeg'
+import youthProgram5 from './assets/youth-program-5.jpeg'
+import youthProgram6 from './assets/youth-program-6.jpeg'
+import youthProgramVideo from './assets/youth-program-video.mp4'
 
 /* ---------------- helpers ---------------- */
 
@@ -80,6 +86,98 @@ function Chevron() {
     <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" className="opacity-60">
       <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
     </svg>
+  )
+}
+
+function ArrowIcon({ direction = 'right' }) {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      className={direction === 'left' ? 'rotate-180' : ''}
+    >
+      <path
+        d="M6 3.5L10.5 8L6 12.5"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+function ImageGlider({ images, interval = 4000, className = '' }) {
+  const [index, setIndex] = useState(0)
+  const [paused, setPaused] = useState(false)
+
+  useEffect(() => {
+    if (paused || images.length <= 1) return
+    const id = setInterval(() => setIndex((i) => (i + 1) % images.length), interval)
+    return () => clearInterval(id)
+  }, [paused, images.length, interval])
+
+  const goTo = (i) => setIndex((i + images.length) % images.length)
+
+  return (
+    <div
+      className={`group relative overflow-hidden rounded-[2rem] border border-accent/30 shadow-2xl ${className}`}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <div
+        className="flex transition-transform duration-700 ease-out"
+        style={{ transform: `translateX(-${index * 100}%)` }}
+      >
+        {images.map((img) => (
+          <img
+            key={img.src}
+            src={img.src}
+            alt={img.alt}
+            className="aspect-[4/3] w-full flex-none object-cover"
+            loading="lazy"
+          />
+        ))}
+      </div>
+
+      {images.length > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={() => goTo(index - 1)}
+            aria-label="Previous photo"
+            className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white opacity-0 transition-opacity focus-visible:opacity-100 group-hover:opacity-100 hover:bg-black/60"
+          >
+            <ArrowIcon direction="left" />
+          </button>
+          <button
+            type="button"
+            onClick={() => goTo(index + 1)}
+            aria-label="Next photo"
+            className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/40 p-2 text-white opacity-0 transition-opacity focus-visible:opacity-100 group-hover:opacity-100 hover:bg-black/60"
+          >
+            <ArrowIcon direction="right" />
+          </button>
+
+          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+            {images.map((img, i) => (
+              <button
+                key={img.src}
+                type="button"
+                onClick={() => goTo(i)}
+                aria-label={`Go to photo ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all ${
+                  i === index ? 'w-5 bg-accent' : 'w-1.5 bg-white/60 hover:bg-white/80'
+                }`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
   )
 }
 
@@ -166,6 +264,15 @@ const initiatives = [
     cta: 'Discover the Program',
     href: '#featured-program',
   },
+]
+
+const youthProgramPhotos = [
+  { src: youthProgram1, alt: 'Youth Recycling Awareness Program participants holding up their certificates' },
+  { src: youthProgram2, alt: 'CIC Bond team and participants celebrating with certificates at the program' },
+  { src: youthProgram3, alt: 'CIC Bond team members at the Youth Recycling Awareness Program' },
+  { src: youthProgram4, alt: 'CIC Bond team members representing the organization at the event' },
+  { src: youthProgram5, alt: 'CIC Bond team wearing "Recycling for Sustainable Construction" shirts' },
+  { src: youthProgram6, alt: 'CIC Bond team at the Youth Recycling Awareness Program event' },
 ]
 
 const impactStats = [
@@ -265,7 +372,15 @@ const footerLinks = [
   { label: 'Contact', href: '#contact' },
 ]
 
-const socialLinks = ['LinkedIn', 'Instagram', 'Facebook', 'WhatsApp']
+const socialLinks = [
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/cic-bond/' },
+  {
+    label: 'Instagram',
+    href: 'https://www.instagram.com/cic_bond?igsh=dXF1cWZ0dm15dG12&igsi=dXF1cWZ0dm15dG12&utm_source=qr',
+  },
+  { label: 'Facebook', href: 'https://www.facebook.com/share/1Hr8eDSTK7/?mibextid=wwXIfr' },
+  { label: 'WhatsApp', href: '#top' },
+]
 
 /* ---------------- app ---------------- */
 
@@ -648,14 +763,7 @@ function App() {
         <section id="featured-program" className="relative overflow-hidden bg-primary text-primary-foreground">
           <Reveal className="container-tight grid gap-12 py-20 md:py-28 lg:grid-cols-2 lg:items-center">
             <div className="relative">
-              <div className="overflow-hidden rounded-[2rem] border border-accent/30 shadow-2xl">
-                <img
-                  src={communityImg}
-                  alt="Young people gathered for the Youth Recycling Awareness Program"
-                  className="aspect-[4/3] w-full object-cover"
-                  loading="lazy"
-                />
-              </div>
+              <ImageGlider images={youthProgramPhotos} />
               <div className="absolute -top-5 -right-5 rounded-2xl bg-accent px-5 py-4 text-accent-foreground shadow-lg">
                 <p className="font-display text-3xl font-bold">50+</p>
                 <p className="text-xs">youth impacted</p>
@@ -680,6 +788,26 @@ function App() {
               <a href="#get-involved" className="btn btn-accent mt-7">
                 Read More
               </a>
+            </div>
+          </Reveal>
+
+          <Reveal className="container-tight pb-20 md:pb-28">
+            <div className="mx-auto max-w-3xl">
+              <div className="overflow-hidden rounded-[2rem] border border-accent/30 shadow-2xl">
+                <video
+                  src={youthProgramVideo}
+                  poster={youthProgramPhotos[0].src}
+                  controls
+                  playsInline
+                  preload="none"
+                  className="aspect-video w-full bg-black"
+                >
+                  Your browser does not support embedded video.
+                </video>
+              </div>
+              <p className="mt-4 text-center text-sm text-primary-foreground/70">
+                Watch highlights from the Youth Recycling Awareness Program.
+              </p>
             </div>
           </Reveal>
         </section>
@@ -928,13 +1056,15 @@ function App() {
             </h3>
             <ul className="mt-4 space-y-2 text-sm">
               {socialLinks.map((social) => (
-                <li key={social}>
+                <li key={social.label}>
                   <a
-                    href="#top"
+                    href={social.href}
+                    target={social.href.startsWith('http') ? '_blank' : undefined}
+                    rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                     className="inline-flex items-center gap-2 text-primary-foreground/80 transition-colors hover:text-accent"
                   >
                     <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                    {social}
+                    {social.label}
                   </a>
                 </li>
               ))}
